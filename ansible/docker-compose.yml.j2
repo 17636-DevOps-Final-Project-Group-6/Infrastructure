@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  {{ app_name }}:
+    image: {{ docker_registry }}{{ app_name }}:{{ app_version }}
+    container_name: {{ app_name }}
+    ports:
+      - "{{ app_port }}:{{ app_port }}"
+    restart: always
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SERVER_PORT={{ app_port }} 

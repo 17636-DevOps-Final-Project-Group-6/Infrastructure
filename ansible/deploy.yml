@@ -1,0 +1,60 @@
+---
+- name: Deploy Spring PetClinic to Production
+  hosts: production
+  become: yes
+  vars:
+    app_name: spring-petclinic
+    app_version: latest
+    app_port: 8080
+    docker_registry: ""  # Empty for local registry
+
+  tasks:
+    - name: Ensure Docker is installed
+      apt:
+        name: 
+          - docker.io
+          - docker-compose
+        state: present
+        update_cache: yes
+      
+    - name: Ensure Docker service is running
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Create app directory
+      file:
+        path: "/opt/{{ app_name }}"
+        state: directory
+        mode: '0755'
+
+    - name: Copy Docker image from Jenkins to production server
+      shell: "docker save {{ docker_registry }}{{ app_name }}:{{ app_version }} | ssh {{ ansible_user }}@{{ ansible_host }} docker load"
+      delegate_to: localhost
+      when: docker_registry == ""
+      
+    - name: Create docker-compose.yml
+      template:
+        src: docker-compose.yml.j2
+        dest: "/opt/{{ app_name }}/docker-compose.yml"
+        mode: '0644'
+      
+    - name: Deploy with Docker Compose
+      shell: "cd /opt/{{ app_name }} && docker-compose up -d"
+      
+    - name: Wait for the application to start
+      wait_for:
+        host: localhost
+        port: "{{ app_port }}"
+        timeout: 120
+      
+    - name: Verify deployment
+      uri:
+        url: "http://localhost:{{ app_port }}"
+        return_content: yes
+      register: webpage
+      failed_when: "'PetClinic' not in webpage.content"
+        
+    - name: Cleanup old Docker images
+      shell: "docker image prune -a -f --filter 'until=24h'" 
