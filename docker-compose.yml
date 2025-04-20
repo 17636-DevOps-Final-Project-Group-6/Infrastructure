@@ -16,7 +16,7 @@ volumes:
 services:
   # Jenkins service
   jenkins:
-    image: jenkins/jenkins:lts
+    image: jenkins/jenkins:lts-jdk11
     container_name: jenkins
     privileged: true
     user: root
