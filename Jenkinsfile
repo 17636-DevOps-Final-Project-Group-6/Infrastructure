@@ -9,6 +9,7 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                // repo
                 git 'https://github.com/17636-DevOps-Final-Project-Group-6/spring-petclinic.git'
             }
         }
