@@ -18,4 +18,4 @@ scrape_configs:
       - targets: ['sonarqube:9000']
     basic_auth:
       username: admin
-      password: admin 
+      password: P3tCl1n1c!Secure
