@@ -18,6 +18,8 @@ services:
   jenkins:
     image: jenkins/jenkins:lts
     container_name: jenkins-new
+    privileged: true
+    user: root
     ports:
       - "9091:8080"
       - "50000:50000"
