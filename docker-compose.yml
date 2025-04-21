@@ -16,7 +16,9 @@ volumes:
 services:
   # Jenkins service
   jenkins:
-    image: jenkins/jenkins:lts
+    build:
+      context: .
+      dockerfile: ./jenkins/Dockerfile
     container_name: jenkins-new
     privileged: true
     user: root
