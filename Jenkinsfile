@@ -39,10 +39,10 @@ pipeline {
             steps {
                 script {
                     // Spin up the containers
-                    sh 'docker-compose -f docker-compose-ci.yml up --abort-on-container-exit --exit-code-from owasp-zap'
+                    sh 'docker-compose -f /var/jenkins_home/docker-compose-ci.yml up --abort-on-container-exit --exit-code-from owasp-zap'
 
                     // Clean up 
-                    sh 'docker-compose -f docker-compose-ci.yml down'
+                    sh 'docker-compose -f /var/jenkins_home/docker-compose-ci.yml down'
                 }
             }
         }
@@ -50,7 +50,7 @@ pipeline {
         stage('Archive Artifacts') {
             steps {
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-                archiveArtifacts artifacts: 'zap-reports/**', allowEmptyArchive: true
+                archiveArtifacts artifacts: '**/zap-reports/**', allowEmptyArchive: true
             }
         }
     }

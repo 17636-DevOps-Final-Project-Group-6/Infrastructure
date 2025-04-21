@@ -29,8 +29,8 @@ services:
     ports:
       - "8090:8090"
     volumes:
-      - ./zap-reports:/zap/reports
-      - ./owasp-zap/script.sh:/zap/script.sh
+      - /var/jenkins_home/zap-reports:/zap/reports
+      - /var/jenkins_home/owasp-zap/script.sh:/zap/script.sh
     environment:
       - ZAP_API_KEY=apikey
       - TARGET_URL=http://host.docker.internal:8080
