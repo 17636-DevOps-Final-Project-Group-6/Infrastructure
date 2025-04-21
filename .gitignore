@@ -79,4 +79,6 @@ fabric.properties
 
 .idea
 
+# Reports
+zap-reports
 .DS_Store
