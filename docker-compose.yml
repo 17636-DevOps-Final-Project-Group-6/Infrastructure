@@ -27,7 +27,6 @@ services:
       - jenkins_home:/var/jenkins_home
     restart: always
 
-  
   # PostgreSQL for SonarQube
   postgresql:
     image: postgres:13
