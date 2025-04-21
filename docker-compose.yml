@@ -32,6 +32,14 @@ services:
       - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     restart: always
 
+# docker run -d --name jenkins-new \
+#   -p 9091:8080 -p 50000:50000 \
+#   -v jenkins_home:/var/jenkins_home \
+#   --network infrastructure_devops-network \
+#   jenkins/jenkins:lts
+  
+#   jenkins password: 723633161b6940b3b20e54e06d65515e
+
   # PostgreSQL for SonarQube
   postgresql:
     image: postgres:13
