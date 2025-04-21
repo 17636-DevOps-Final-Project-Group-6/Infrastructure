@@ -69,8 +69,11 @@ check_and_deploy() {
         echo "Pulling updates..."
         if ! git pull; then
             echo "Error: Failed to pull updates. There might be conflicts or permission issues."
-            echo "Resolve any conflicts manually and try again or remove the directory and start fresh."
-            return 1
+            echo "Removing repository directory to clone fresh in the next cycle..."
+            cd /
+            rm -rf "$TARGET_DIR"
+            echo "Repository directory deleted. Will clone on next cycle."
+            return 0
         fi
         
         # Get new commit hash
@@ -110,7 +113,7 @@ check_and_deploy() {
 }
 
 # Main loop to check every 15 seconds
-echo "Starting continuous deployment service. Checking for updates every 15 seconds..."
+echo "Starting continuous deployment service. Checking for updates every 5 seconds..."
 while true; do
     check_and_deploy
     echo "Next check in 5 seconds..."
