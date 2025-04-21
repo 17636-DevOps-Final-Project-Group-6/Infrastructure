@@ -1,0 +1,58 @@
+# docker compose -f docker-compose-ci.yml up -d
+version: '3.8'
+
+networks:
+  devops-network:
+    driver: bridge
+
+services:
+  # OWASP ZAP service
+  owasp-zap:
+    image: zaproxy/zap-stable
+    container_name: owasp-zap
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        # Start ZAP in the background
+        zap.sh -daemon -host 0.0.0.0 -port 8090 \
+          -config api.addrs.addr.name=.* \
+          -config api.addrs.addr.regex=true \
+          -config api.key=apikey &
+        
+        # Wait for ZAP API to be ready
+        while ! curl -s http://localhost:8090 >/dev/null; do sleep 2; done
+        
+        # Run your script
+        chmod +x /zap/script.sh
+        /zap/script.sh
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./zap-reports:/zap/reports
+      - ./owasp-zap/script.sh:/zap/script.sh
+    environment:
+      - ZAP_API_KEY=apikey
+      - TARGET_URL=http://host.docker.internal:8080
+    networks:
+      - devops-network
+    restart: always
+    depends_on:
+      petclinic:
+        condition: service_healthy
+  
+  # Spring PetClinic Application
+  petclinic:
+    build:
+      context: .
+      dockerfile: ./petclinic/Dockerfile
+    container_name: petclinic
+    networks:
+      - devops-network
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
