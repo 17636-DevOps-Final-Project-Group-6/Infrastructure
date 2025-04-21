@@ -1221,7 +1221,7 @@
         ]
       },
       "gridPos": {
-        "h": 5,
+        "h": 7,
         "w": 24,
         "x": 0,
         "y": 23
@@ -1311,7 +1311,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 28
+        "y": 30
       },
       "id": 400,
       "panels": [],
@@ -1403,9 +1403,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 9,
+        "w": 10,
         "x": 0,
-        "y": 29
+        "y": 31
       },
       "id": 401,
       "options": {
@@ -1529,9 +1529,9 @@
       },
       "gridPos": {
         "h": 8,
-        "w": 8,
-        "x": 9,
-        "y": 29
+        "w": 10,
+        "x": 10,
+        "y": 31
       },
       "id": 403,
       "options": {
@@ -1577,89 +1577,6 @@
       },
       "fieldConfig": {
         "defaults": {
-          "decimals": 1,
-          "mappings": [
-            {
-              "options": {
-                "match": "null",
-                "result": {
-                  "text": "N/A"
-                }
-              },
-              "type": "special"
-            }
-          ],
-          "max": 100,
-          "min": 0,
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "rgba(245, 54, 54, 0.9)"
-              },
-              {
-                "color": "rgba(237, 129, 40, 0.89)",
-                "value": 30
-              },
-              {
-                "color": "rgba(50, 172, 45, 0.97)",
-                "value": 10
-              }
-            ]
-          },
-          "unit": "percent"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 3,
-        "x": 17,
-        "y": 29
-      },
-      "id": 504,
-      "maxDataPoints": 100,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "horizontal",
-        "percentChangeColorMode": "standard",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "11.6.0",
-      "targets": [
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "expr": "(vm_memory_total_max - vm_memory_total_used) / vm_memory_total_max * 100.0",
-          "format": "time_series",
-          "intervalFactor": 1,
-          "refId": "A",
-          "textEditor": false
-        }
-      ],
-      "title": "JVM free memory",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "prometheus",
-        "uid": "PBFA97CFB590B2093"
-      },
-      "fieldConfig": {
-        "defaults": {
           "color": {
             "mode": "thresholds"
           },
@@ -1691,7 +1608,7 @@
         "h": 8,
         "w": 4,
         "x": 20,
-        "y": 29
+        "y": 31
       },
       "id": 402,
       "options": {
@@ -1786,7 +1703,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 37
+        "y": 39
       },
       "id": 404,
       "options": {
@@ -1879,7 +1796,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 37
+        "y": 39
       },
       "id": 405,
       "options": {
@@ -1991,7 +1908,7 @@
         "h": 8,
         "w": 8,
         "x": 0,
-        "y": 45
+        "y": 47
       },
       "id": 406,
       "options": {
@@ -2111,7 +2028,7 @@
         "h": 8,
         "w": 8,
         "x": 8,
-        "y": 45
+        "y": 47
       },
       "id": 407,
       "options": {
@@ -2204,7 +2121,7 @@
         "h": 8,
         "w": 8,
         "x": 16,
-        "y": 45
+        "y": 47
       },
       "id": 408,
       "options": {
@@ -2239,7 +2156,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 53
+        "y": 55
       },
       "id": 500,
       "panels": [],
@@ -2284,7 +2201,7 @@
         "h": 8,
         "w": 6,
         "x": 0,
-        "y": 54
+        "y": 56
       },
       "id": 501,
       "options": {
@@ -2377,7 +2294,7 @@
         "h": 8,
         "w": 9,
         "x": 6,
-        "y": 54
+        "y": 56
       },
       "id": 502,
       "options": {
@@ -2494,7 +2411,7 @@
         "h": 8,
         "w": 9,
         "x": 15,
-        "y": 54
+        "y": 56
       },
       "id": 503,
       "options": {
@@ -2586,5 +2503,5 @@
   "timezone": "browser",
   "title": "Jenkins Monitoring Dashboard (Improved)",
   "uid": "jenkins-improved",
-  "version": 9
+  "version": 11
 }
