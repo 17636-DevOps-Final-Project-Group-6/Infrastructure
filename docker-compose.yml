@@ -134,17 +134,17 @@ services:
         condition: service_healthy
   
   # Spring PetClinic Application
-  petclinic:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: petclinic
-    networks:
-      - devops-network
-    ports:
-      - "8080:8080"
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 10
+#  petclinic:
+#    build:
+#      context: .
+#      dockerfile: petclinic/Dockerfile
+#    container_name: petclinic
+#    networks:
+#      - devops-network
+#    ports:
+#      - "8080:8080"
+#    healthcheck:
+#      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+#      interval: 10s
+#      timeout: 5s
+#      retries: 10
