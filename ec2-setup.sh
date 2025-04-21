@@ -96,7 +96,7 @@ check_and_deploy() {
     
     # Deploy with docker compose - continue even if there are errors
     echo "Starting Docker containers..."
-    # sudo docker compose down || echo "Warning: Docker Compose down command failed, continuing..."
+    sudo docker compose down || echo "Warning: Docker Compose down command failed, continuing..."
     sudo docker compose up -d || echo "Warning: Docker Compose up command failed, continuing..."
     
     # Wait for services to start
