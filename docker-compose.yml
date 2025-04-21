@@ -16,10 +16,8 @@ volumes:
 services:
   # Jenkins service
   jenkins:
-    image: jenkins/jenkins:lts-jdk11
-    container_name: jenkins
-    privileged: true
-    user: root
+    image: jenkins/jenkins:lts
+    container_name: jenkins-new
     ports:
       - "9091:8080"
       - "50000:50000"
@@ -27,16 +25,8 @@ services:
       - devops-network
     volumes:
       - jenkins_home:/var/jenkins_home
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
     restart: always
 
-# docker run -d --name jenkins-new \
-#   -p 9091:8080 -p 50000:50000 \
-#   -v jenkins_home:/var/jenkins_home \
-#   --network infrastructure_devops-network \
-#   jenkins/jenkins:lts
   
   # PostgreSQL for SonarQube
   postgresql:
