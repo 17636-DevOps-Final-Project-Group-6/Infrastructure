@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven '3.9.9'
+        maven 'Maven 3.8.1'
         jdk 'jdk-17'
         sonarScanner 'SonarScanner'
     }
