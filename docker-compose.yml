@@ -38,8 +38,6 @@ services:
 #   --network infrastructure_devops-network \
 #   jenkins/jenkins:lts
   
-#   jenkins password: 723633161b6940b3b20e54e06d65515e
-
   # PostgreSQL for SonarQube
   postgresql:
     image: postgres:13
