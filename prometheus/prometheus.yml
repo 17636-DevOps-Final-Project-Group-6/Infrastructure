@@ -19,4 +19,3 @@ scrape_configs:
     basic_auth:
       username: admin
       password: P3tCl1n1c!Secure
-      
