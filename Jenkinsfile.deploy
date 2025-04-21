@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+    environment {
+        OPERATIONAL_SERVER_IP = 'ec2-44-200-204-166.compute-1.amazonaws.com'
+    }
+    stages {
+        stage('Copy Artifact') {
+            steps {
+                copyArtifacts(
+                    projectName: 'spring-petclinic-pipeline',
+                    filter: '**/target/spring-petclinic-*.jar',
+                    selector: lastSuccessful(),
+                    target: 'target/',
+                    flatten: true
+                )
+            }
+        }
+        stage('Deploy to Operational Server') {
+            steps {
+                script {
+                    sshagent(['operational-server-pem']) {
+                        sh """
+                            scp -o StrictHostKeyChecking=no \
+                                target/spring-petclinic-3.4.0-SNAPSHOT.jar \
+                                ubuntu@${env.OPERATIONAL_SERVER_IP}:~/app/
+                            
+                            ssh -o StrictHostKeyChecking=no \
+                                ubuntu@${env.OPERATIONAL_SERVER_IP} '
+                                    # Verify Java
+                                    if ! command -v java &> /dev/null; then
+                                        sudo apt update && sudo apt install -y openjdk-17-jre
+                                    fi
+        
+                                    # Verify JAR
+                                    if [ ! -f ~/app/spring-petclinic-3.4.0-SNAPSHOT.jar ]; then
+                                        echo "JAR file missing!"
+                                        exit 1
+                                    fi
+        
+                                    # Restart service
+                                    sudo systemctl daemon-reload
+                                    sudo systemctl restart petclinic
+                                '
+                        """
+                    }
+                }
+            }
+        }
+    }
+}
