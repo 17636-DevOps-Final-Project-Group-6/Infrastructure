@@ -21,17 +21,28 @@ pipeline {
             }
         }
         
-        // stage('Test') {
-        //     steps {
-        //         sh 'mvn test'
-        //     }
-        // }
+        stage('Test') {
+            steps {
+                sh 'mvn test'
+            }
+        }
         
         stage('SonarQube Analysis') {
             steps {
-                // echo "SONAR_TOKEN: ${SONAR_TOKEN}"
                 withSonarQubeEnv("Sonar") {
                     sh  './mvnw sonar:sonar -Dsonar.projectKey=DevSonar'
+                }
+            }
+        }
+
+        stage('Run OWASP ZAP CI Scan') {
+            steps {
+                script {
+                    // Spin up the containers
+                    sh 'docker-compose -f docker-compose-ci.yml up --abort-on-container-exit --exit-code-from owasp-zap'
+
+                    // Clean up 
+                    sh 'docker-compose -f docker-compose-ci.yml down'
                 }
             }
         }
@@ -39,6 +50,7 @@ pipeline {
         stage('Archive Artifacts') {
             steps {
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+                archiveArtifacts artifacts: 'zap-reports/**', allowEmptyArchive: true
             }
         }
     }

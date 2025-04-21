@@ -27,6 +27,8 @@ services:
       - devops-network
     volumes:
       - jenkins_home:/var/jenkins_home
+      - ./docker-compose-ci.yml:~/docker-compose-ci.yml
+      - ./owasp-zap/script.sh:./owasp-zap/script.sh
     restart: always
 
   # PostgreSQL for SonarQube
