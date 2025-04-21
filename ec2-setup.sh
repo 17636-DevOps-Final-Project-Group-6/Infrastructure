@@ -113,6 +113,6 @@ check_and_deploy() {
 echo "Starting continuous deployment service. Checking for updates every 15 seconds..."
 while true; do
     check_and_deploy
-    echo "Next check in 15 seconds..."
-    sleep 15
+    echo "Next check in 5 seconds..."
+    sleep 5
 done
