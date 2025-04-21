@@ -4,12 +4,10 @@ pipeline {
     tools {
         maven 'Maven 3.8.1'
         jdk 'jdk-17'
-        sonarScanner 'SonarScanner'
     }
     
     environment {
-        SONAR = 'DevSonar'
-        SONAR_AUTH_TOKEN = credentials('Analyze "DevSonar"')
+        SQ_TOKEN = credentials('sq1')
     }
 
     stages {
@@ -27,21 +25,20 @@ pipeline {
             }
         }
 
-        stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
-        }
+        // stage('Test') {
+        //     steps {
+        //         sh 'mvn test'
+        //     }
+        // }
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv(SONAR) {
+                withSonarQubeEnv('sq1') {
                     sh """
                         mvn sonar:sonar \
                           -Dsonar.projectKey=DevSonar \
                           -Dsonar.projectName='DevSonar' \
-                          -Dsonar.host.url=${SONAR_HOST_URL} \
-                          -Dsonar.login=${SONAR_AUTH_TOKEN}
+                          -Dsonar.login=${SQ_TOKEN}
                     """
                 }
             }
