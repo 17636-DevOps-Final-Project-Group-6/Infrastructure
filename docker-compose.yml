@@ -16,7 +16,9 @@ volumes:
 services:
   # Jenkins service
   jenkins:
-    image: jenkins/jenkins:lts
+    build:
+      context: .
+      dockerfile: ./jenkins/Dockerfile
     container_name: jenkins-new
     privileged: true
     user: root
@@ -27,6 +29,8 @@ services:
       - devops-network
     volumes:
       - jenkins_home:/var/jenkins_home
+      - ./docker-compose-ci.yml:/var/jenkins_home/docker-compose-ci.yml
+      - ./owasp-zap/script.sh:/var/jenkins_home/owasp-zap/script.sh
     restart: always
 
   # PostgreSQL for SonarQube
