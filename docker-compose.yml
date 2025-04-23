@@ -23,15 +23,21 @@ services:
     privileged: true
     user: root
     ports:
-      - "9091:8080"
+      - "9091:9091"
+      - "8080:8080"
       - "50000:50000"
     networks:
       - devops-network
     volumes:
       - jenkins_home:/var/jenkins_home
-      - ./docker-compose-ci.yml:/var/jenkins_home/docker-compose-ci.yml
       - ./owasp-zap/script.sh:/var/jenkins_home/owasp-zap/script.sh
+      - ./zap-reports:/var/jenkins_home/owasp-zap/reports
     restart: always
+    environment:
+    - JENKINS_OPTS=--httpPort=9091
+    - ZAP_API_KEY=apikey
+    - ZAP_IP=http://owasp-zap:8090
+    - TARGET_URL=http://jenkins:8080
 
   # PostgreSQL for SonarQube
   postgresql:
@@ -100,4 +106,25 @@ services:
     environment:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
+    restart: always
+
+  # OWASP ZAP service
+  owasp-zap:
+    image: zaproxy/zap-stable
+    container_name: owasp-zap
+    command: 
+      - /bin/sh
+      - -c
+      - |
+        # Start ZAP in the background
+        zap.sh -daemon -host 0.0.0.0 -port 8090 \
+          -config api.addrs.addr.name=.* \
+          -config api.addrs.addr.regex=true \
+          -config api.key=apikey
+    ports:
+      - "8090:8090"
+    volumes:
+      - ./zap-reports:/zap/reports
+    networks:
+      - devops-network
     restart: always

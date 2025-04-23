@@ -39,12 +39,10 @@ pipeline {
             steps {
                 script {
                     // Start the webapp in the background
-                    sh 'nohup java -jar target/spring-petclinic-3.4.0-SNAPSHOT.jar &'
-                    // Spin up the containers
-                    sh 'docker-compose -f /var/jenkins_home/docker-compose-ci.yml up --abort-on-container-exit --exit-code-from owasp-zap'
+                    sh 'java -jar target/spring-petclinic-3.4.0-SNAPSHOT.jar &'
 
-                    // Clean up 
-                    sh 'docker-compose -f /var/jenkins_home/docker-compose-ci.yml down'
+                    // Request OWASP ZAP SCAN
+                    sh '/var/jenkins_home/owasp-zap/script.sh'
 
                     // Stop the webapp running locally
                     sh '''
@@ -60,7 +58,7 @@ pipeline {
         stage('Archive Artifacts') {
             steps {
                 archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-                archiveArtifacts artifacts: '**/zap-reports/**', allowEmptyArchive: true
+                archiveArtifacts artifacts: '**/owasp-zap/reports/**', allowEmptyArchive: true
             }
         }
     }
