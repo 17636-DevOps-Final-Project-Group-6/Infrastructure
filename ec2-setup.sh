@@ -8,24 +8,11 @@ TARGET_DIR="/home/ubuntu/Infrastructure"
 
 # Function to display service information
 display_info() {
-    # Get the EC2 public IP
-    PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
-    
-    echo "============================================"
-    echo "DevSecOps Pipeline is ready!"
-    echo "============================================"
-    echo "Jenkins: http://$PUBLIC_IP:8080"
-    echo "SonarQube: http://$PUBLIC_IP:9000 (admin/admin)"
-    echo "Prometheus: http://$PUBLIC_IP:9090"
-    echo "Grafana: http://$PUBLIC_IP:3000 (admin/admin)"
-    echo "OWASP ZAP API: http://$PUBLIC_IP:8090"
-    echo "============================================"
-    echo "Next steps:"
-    echo "1. Get Jenkins admin password: sudo docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword"
-    echo "2. Configure Jenkins with required plugins"
-    echo "3. Create a SonarQube project and token"
-    echo "4. Set up the Jenkins pipeline using the provided Jenkinsfile"
-    echo "============================================"
+    echo "=================================================="
+
+    # Current docker compose status
+    echo "Current docker compose status:"
+    sudo docker compose ps
 }
 
 # Function to check and deploy updates
@@ -116,6 +103,7 @@ check_and_deploy() {
 echo "Starting continuous deployment service. Checking for updates every 5 seconds..."
 while true; do
     check_and_deploy
-    echo "Next check in 5 seconds..."
-    sleep 5
+    echo "Next check in 10 seconds..."
+    sleep 10
+    clear
 done
