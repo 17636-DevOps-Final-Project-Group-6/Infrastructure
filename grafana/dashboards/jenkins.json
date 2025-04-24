@@ -355,7 +355,7 @@
             "barAlignment": 0,
             "barWidthFactor": 0.6,
             "drawStyle": "line",
-            "fillOpacity": 10,
+            "fillOpacity": 37,
             "gradientMode": "opacity",
             "hideFrom": {
               "legend": false,
@@ -364,7 +364,7 @@
             },
             "insertNulls": false,
             "lineInterpolation": "linear",
-            "lineWidth": 1,
+            "lineWidth": 2,
             "pointSize": 5,
             "scaleDistribution": {
               "type": "linear"
@@ -380,6 +380,8 @@
             }
           },
           "mappings": [],
+          "max": 1,
+          "min": 0,
           "thresholds": {
             "mode": "absolute",
             "steps": [
@@ -421,27 +423,15 @@
             "type": "prometheus",
             "uid": "PBFA97CFB590B2093"
           },
-          "expr": "jenkins_executor_count_value",
-          "legendFormat": "Total Configured",
+          "editorMode": "code",
+          "exemplar": false,
+          "expr": "jenkins_executor_in_use_value / jenkins_executor_count_value",
+          "format": "time_series",
+          "instant": false,
+          "interval": "",
+          "legendFormat": "Usage Percentage",
+          "range": true,
           "refId": "A"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "expr": "jenkins_executor_in_use_value",
-          "legendFormat": "Busy",
-          "refId": "B"
-        },
-        {
-          "datasource": {
-            "type": "prometheus",
-            "uid": "PBFA97CFB590B2093"
-          },
-          "expr": "jenkins_executor_free_value",
-          "legendFormat": "Idle",
-          "refId": "C"
         }
       ],
       "title": "Executor Usage",
@@ -2457,8 +2447,12 @@
     "list": [
       {
         "current": {
-          "text": "All",
-          "value": "$__all"
+          "text": [
+            "All"
+          ],
+          "value": [
+            "$__all"
+          ]
         },
         "datasource": {
           "type": "prometheus",
@@ -2503,5 +2497,5 @@
   "timezone": "browser",
   "title": "Jenkins Monitoring Dashboard (Improved)",
   "uid": "jenkins-improved",
-  "version": 11
+  "version": 12
 }
