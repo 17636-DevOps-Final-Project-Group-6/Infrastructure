@@ -9,6 +9,17 @@ done
 
 echo "ZAP API is ready!"
 
+curl -s localhost:8080
+
+echo "Web App is starting up..."
+
+while ! curl -s localhost:8080 >/dev/null; do
+  echo "Waiting for Web App to be ready..."
+  sleep 2
+done
+
+echo "Web App is ready!"
+
 # Spider the target
 curl "$ZAP_IP/JSON/spider/action/scan/?apikey=$ZAP_API_KEY&url=$TARGET_URL"
 
