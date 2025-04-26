@@ -14,6 +14,19 @@ pipeline {
                     url: 'https://github.com/17636-DevOps-Final-Project-Group-6/spring-petclinic.git'
             }
         }
+
+        stage('Clean Workspace') {
+            steps {
+                script {
+                    // Delete reports
+                    sh '''
+                        if [ -d "owasp-zap" ]; then
+                            rm -rf owasp-zap
+                        fi
+                    '''
+                }
+            }
+        }
         
         stage('Build') {
             steps {
